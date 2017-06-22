@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>外汇</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<meta name="MobileOptimized" content="320">
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="yes" name="apple-touch-fullscreen">
+	<meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/templatemo_misc.css">
+    <link href="css/templatemo_style.css" rel="stylesheet"> 
+    <script type="text/javascript" src="js/jquery-1.6.js"></script>
+    <script type="text/javascript" src="js/lib/stock.js"></script> 
+    <script type="text/javascript" src="js/lib/stock-minute.js"></script> 
+    <script type="text/javascript" src="echarts.js"></script>  	  	
+	<script type="text/javascript">
+	  //       function GetQueryString(name) { 
+	  //           var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i"); 
+	  //           var r = window.location.search.substr(1).match(reg); 
+	  //           if (r!=null) 
+	  //           	return (r[2]); 
+	  //           return null; 
+	  //       } 
+			// eval('var hq_str_sz002024=null');
+		 // 	var data={};
+		 // 	var sid = GetQueryString("sid");
+		 // 	var date = GetQueryString("date");
+		 function rate(){
+		 	$.ajax({
+             type: "GET",
+             url: "hui.php",
+             data: {},
+             dataType: "json",
+             success: function(data){
+                   console.log(data);
+                   var update = document.getElementById("update");
+                   update.innerHTML = data['update'];
+                   var scur = document.getElementById("scur");
+                   scur.innerHTML = data['scur'];
+                   var tcur = document.getElementById("tcur");
+                   tcur.innerHTML = data['tcur'];
+                   var rate = document.getElementById("rate");
+                   rate.innerHTML = data['rate'];
+             }
+            });
+
+		 }
+		 rate();
+		 setInterval(rate,60000);
+		 
+		 	 
+			
+	</script>
+	<script type="text/javascript">
+    
+	function randomData() {
+	    now = new Date(+now + zeng);
+	    //console.log(now);
+	    value = value + Math.random() * 21 - 10;
+	    if(parseInt(now.getHours())<10)
+	    {
+	    	var str = '0'+now.getHours()+':'+'0'+now.getMinutes()+':'+now.getSeconds();
+	    }else{
+	    	var str = now.getHours()+':'+'0'+now.getMinutes()+':'+now.getSeconds();
+	    }
+	    var str1 = now.getFullYear()+'/'+now.getMonth()+'/'+now.getDate();
+	    //console.log("Hours"+now.getHours());
+	    //console.log("Minutes"+now.getMinutes());
+	    //console.log("Seconds"+now.getSeconds());
+	    return {
+	        name: str,
+	        value: [str,Math.round(value)]
+	    }
+	}
+	function randomData0() {
+	    now = new Date(+now + zeng);
+	    //console.log(now);
+	    //value = value + Math.random() * 21 - 10;
+	    // if(parseInt(now.getHours())<10)
+	    // {
+	    // 	if(parseInt(now.getMinutes())<10)
+	    // 	{
+	    // 		var str = '0'+now.getHours()+':'+'0'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}else{
+	    // 		var str = '0'+now.getHours()+':'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}
+	    	
+	    // }else{
+	    // 	if(parseInt(now.getMinutes())<10)
+	    // 	{
+	    // 		var str = now.getHours()+':'+'0'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}else{
+	    // 		var str = now.getHours()+':'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}
+	    // }
+	   if(parseInt(now.getHours())<10)
+	    {
+	    	var str = '0'+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+	    }else{
+	    	var str = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+	    }
+	    var str1 = now.getFullYear()+'/'+now.getMonth()+'/'+now.getDate();
+	    //console.log("Hours"+now.getHours());
+	    //console.log("Minutes"+now.getMinutes());
+	    //console.log("Seconds"+now.getSeconds());
+	    return {
+	        name: str,
+	        value: [str,'']
+	    }
+	}
+	
+   
+	var data = [];
+	var data1 = ["00:00:00"];
+	var now = +new Date(2017, 6, 22,0,0,0);
+	var zeng = 60 * 1000;
+	var value = 100;
+	var myChart = echarts.init(document.getElementById('main'));
+	
+	for (var i = 0; i < 1440; i++) {
+	    data.push(randomData0());
+	    //console.log(data[i].value[0]);
+	    //var data1 = new Date(data[i].name);
+	    data1.push(data[i].value[0]);
+	   // console.log(data1);
+	    //console.log(data1.getHours());
+	    //console.log(data1.getMinutes());
+	    //console.log(data1.getSeconds());
+	}
+	
+//console.log(data);
+//console.log(time);
+	option = {
+	    title: {
+	        text: 'haha'
+	    },
+	    tooltip: {
+	        trigger: 'axis',
+	        formatter: function (params) {
+	            params = params[0];
+	            var date = new Date(params.name);
+	            console.log()
+	           return params.value[0]+ ' : ' + params.value[1];
+
+	        },
+	        axisPointer: {
+	            animation: false
+	        }
+	    },
+	    xAxis: {
+	        type : 'category',
+            boundaryGap : false,
+            data : data1,
+	        splitLine: {
+	            show: false
+	        }
+	    },
+	    yAxis: {
+	        type: 'value',
+	        boundaryGap: [0, '100%'],
+	        splitLine: {
+	            show: false
+	        }
+	    },
+	    series: [{
+	        name: '模拟数据',
+	        type: 'line',
+	        showSymbol: false,
+	        hoverAnimation: false,
+	        data: data
+	    }]
+	};
+	var ii=0;
+	setInterval(function () {
+
+	    for (var i = 0; i < 1; i++) {
+	        //data.shift();
+	        //console.log(randomData());
+	        //data.push(randomData());
+	        //console.log(data[ii].value[1]);
+	        value = value + Math.random() * 8 - 4;
+	        data[ii].value[1]=Math.round(value);
+	        ii++;
+	    }
+	    myChart.setOption(option);
+	}, 100);
+
+</script>
+    
+</head>
+
+<body>
+	<div class="logocontainer">
+    	<div class="row">
+        	<h1 style = "margin: 4.5% 0% 0% 10%;"><a href="#">外汇</a></h1>
+            <div class="clear"></div>
+            <div class="templatemo_smalltitle1">
+            	<span style="color:white;">更新时间：</span>
+            	<span style="color:white;" id="update">11111</span>
+            	<br>
+            	<span style="color:white;">原币种：</span>
+            	<span style="color:white;" id="scur">11111</span>
+            	<br>
+            	<span style="color:white;" >目标币种：</span>
+            	<span style="color:white;" id="tcur">11111</span>
+            	<br>
+            	<span style="color:white;" >汇率：</span>
+            	<span style="color:white;" id="rate">11111</span>
+            </div>
+
+       </div>
+    </div>
+    <div id="main" style="width: 700px;height:500px;left:200px;top:-50px" ></div>
+
+</body>
+<script type="text/javascript">
+    
+	function randomData() {
+	    now = new Date(+now + zeng);
+	    //console.log(now);
+	    value = value + Math.random() * 21 - 10;
+	    if(parseInt(now.getHours())<10)
+	    {
+	    	var str = '0'+now.getHours()+':'+'0'+now.getMinutes()+':'+now.getSeconds();
+	    }else{
+	    	var str = now.getHours()+':'+'0'+now.getMinutes()+':'+now.getSeconds();
+	    }
+	    var str1 = now.getFullYear()+'/'+now.getMonth()+'/'+now.getDate();
+	    //console.log("Hours"+now.getHours());
+	    //console.log("Minutes"+now.getMinutes());
+	    //console.log("Seconds"+now.getSeconds());
+	    return {
+	        name: str,
+	        value: [str,Math.round(value)]
+	    }
+	}
+	function randomData0() {
+	    now = new Date(+now + zeng);
+	    //console.log(now);
+	    //value = value + Math.random() * 21 - 10;
+	    // if(parseInt(now.getHours())<10)
+	    // {
+	    // 	if(parseInt(now.getMinutes())<10)
+	    // 	{
+	    // 		var str = '0'+now.getHours()+':'+'0'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}else{
+	    // 		var str = '0'+now.getHours()+':'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}
+	    	
+	    // }else{
+	    // 	if(parseInt(now.getMinutes())<10)
+	    // 	{
+	    // 		var str = now.getHours()+':'+'0'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}else{
+	    // 		var str = now.getHours()+':'+now.getMinutes()+':'+'0'+now.getSeconds();
+	    // 	}
+	    // }
+	   if(parseInt(now.getHours())<10)
+	    {
+	    	var str = '0'+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+	    }else{
+	    	var str = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+	    }
+	    var str1 = now.getFullYear()+'/'+now.getMonth()+'/'+now.getDate();
+	    //console.log("Hours"+now.getHours());
+	    //console.log("Minutes"+now.getMinutes());
+	    //console.log("Seconds"+now.getSeconds());
+	    return {
+	        name: str,
+	        value: [str,'']
+	    }
+	}
+	
+   
+	var data = [];
+	var data1 = ["00:00:00"];
+	var now = +new Date(2017, 6, 22,0,0,0);
+	var zeng = 60 * 1000;
+	var value = 100;
+	var myChart = echarts.init(document.getElementById('main'));
+	
+	for (var i = 0; i < 1440; i++) {
+	    data.push(randomData0());
+	    //console.log(data[i].value[0]);
+	    //var data1 = new Date(data[i].name);
+	    data1.push(data[i].value[0]);
+	   // console.log(data1);
+	    //console.log(data1.getHours());
+	    //console.log(data1.getMinutes());
+	    //console.log(data1.getSeconds());
+	}
+	
+//console.log(data);
+//console.log(time);
+	option = {
+	    title: {
+	        text: ''
+	    },
+	    tooltip: {
+	        trigger: 'axis',
+	        formatter: function (params) {
+	            params = params[0];
+	            var date = new Date(params.name);
+	            console.log()
+	           return params.value[0]+ ' : ' + params.value[1];
+
+	        },
+	        axisPointer: {
+	            animation: false
+	        }
+	    },
+	    xAxis: {
+	        type : 'category',
+            boundaryGap : false,
+            data : data1,
+	        splitLine: {
+	            show: false,
+	        },
+	        axisLine:{
+                lineStyle:{
+                    color:'white',
+                    width:2,//这里是为了突出显示加上的，可以去掉
+                }
+            },
+	        axisLabel: {
+                show: true,
+                textStyle: {
+                    color: '#fff'
+                }
+            }
+	    },
+	    yAxis: {
+	        type: 'value',
+	        boundaryGap: [0, '100%'],
+	        splitLine: {
+	            show: false
+	        },
+	        axisLine:{
+                lineStyle:{
+                    color:'white',
+                    width:2,//这里是为了突出显示加上的，可以去掉
+                }
+            },
+	        axisLabel: {
+                show: true,
+                textStyle: {
+                    color: '#fff'
+                }
+            }
+	    },
+	    series: [{
+	        name: '模拟数据',
+	        type: 'line',
+	        showSymbol: false,
+	        hoverAnimation: false,
+	        data: data,
+	        itemStyle : {  
+                normal : {  
+                    lineStyle:{  
+                        color:'#5CACEE',
+                        width:1,  
+                    }  
+                }  
+            },
+	    }]
+	};
+	var ii=0;
+	setInterval(function () {
+
+	    for (var i = 0; i < 1; i++) {
+	        //data.shift();
+	        //console.log(randomData());
+	        //data.push(randomData());
+	        //console.log(data[ii].value[1]);
+	        value = value + Math.random() * 8 - 4;
+	        data[ii].value[1]=Math.round(value);
+	        ii++;
+	    }
+	    myChart.setOption(option);
+	}, 100);
+
+</script>
+</html>
