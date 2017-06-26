@@ -30,6 +30,7 @@ for($i=2;$i<sizeof($arr);$i++){
 
 $r_arr = array();
 
+$r_str = date('H:i:s',time());
 for($i=0;$i<sizeof($arr1);$i++){
   if($i==sizeof($arr1)-1)
   {
@@ -39,36 +40,33 @@ for($i=0;$i<sizeof($arr1);$i++){
     $sec = split('"',$t_arr[3]);
     $str1=str_replace('"','',$t_arr[1].':'.$t_arr[2].':'.$sec[0]);
     $r_arr[$str] = $str1;
+    $r_str = $r_str.','.$str1;
   }else{
     $t_arr=split(':',$arr1[$i]);
     $str=str_replace('"','',$t_arr[0]);
     $str1=str_replace('"','',$t_arr[1]);
     $r_arr[$str] = $str1;
+    
+    $r_str = $r_str.','.$str1;
+    
+    
   }
   
 }
-$fp = fopen("data.txt", "r");
-//echo fgets($fp);
-$fstr = split(',', fgets($fp));
-fclose($fp);
-$r_arr['today'] = $fstr[0];
-$r_arr['yeday'] = $fstr[1];
-$fp1 = fopen("data1.txt", "w");
-if($fp1)
+
+//print_r($r_arr);
+//echo $r_str;
+$f_str = "/var/www/html/rate/data/hui".date('Ymd',time()).".txt";
+$fp = fopen($f_str, "a");
+if($fp)
 {
-  $hour = (int)date('H',time());
-  $minute = date('i',time());
-  $n = 60*(int)$hour+(int)$minute;
-  $t = date('H:i:s',time());
-  $r_str = $n.','.$t.','.$r_arr['rate'];
-  $flag=fwrite($fp1,$r_str);
-  //fwrite($fp1,"\r\n");
+  $flag=fwrite($fp,$r_str);
+  fwrite($fp,"\r\n");
   if(!$flag) 
   { 
     echo "写入文件失败<br>"; 
   }  
 }
-fclose($fp1);
-echo json_encode($r_arr);
-
+fclose($fp); 
+//return 1;
 ?>  
